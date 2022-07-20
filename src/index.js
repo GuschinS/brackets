@@ -1,44 +1,26 @@
 module.exports = function check(str, bracketsConfig) {
-  const brackets = bracketsConfig.flat()
+  let currentSymbol =''
   let result = []
-  let currentSymbol = ''
-  let openBrackets = []
-  let bracketsPair = {}
-  let topElement = ''
-  let br = '|'
 
-  for (let j = 0; j < brackets.length; j += 2) {
-    openBrackets.push(brackets[j])
-  }
-  bracketsPair = {
-    [brackets[1]]: brackets[0],
-    [brackets[3]]: brackets[2],
-    [brackets[5]]: brackets[4],
-    [brackets[7]]: brackets[6],
-    [brackets[9]]: brackets[8]
-  }
-  for (let i = 0; i < str.length; i++) {
+  for (i = 0; i < str.length; i++) {
     currentSymbol = str[i]
-    if (openBrackets.includes(currentSymbol)) {
-      result.push(currentSymbol)
-    } else {
-      if (result.length === 0) {
+    for (j = 0; j < bracketsConfig.length; j++) {
+      if (currentSymbol === bracketsConfig[j][1] && result.length === 0) {
+        console.log(false)
         return false
       }
-      topElement = result[result.length - 1]
-      if (bracketsPair[currentSymbol] === topElement) {
-        result.pop()
-      } else {
-        return false
+      else if (result[result.length - 1] === bracketsConfig[j][0] && currentSymbol === bracketsConfig[j][1]) {
+        result.pop(currentSymbol)
       }
+      else if (result[result.length - 1] === bracketsConfig[j][1] && currentSymbol === bracketsConfig[j][0]) {
+        result.pop(currentSymbol)
+      }
+      else  if (currentSymbol === bracketsConfig[j][0]){
+        result.push(currentSymbol)
 
-    }
-    if (result.includes(br)) {
-      result = result.filter(function (value) {
-        return value !== br;
-      })
+      }
     }
   }
-
-  return result.length === 0
+  
+  return result.length == 0
 }
