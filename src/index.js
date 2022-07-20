@@ -5,7 +5,7 @@ module.exports = function check(str, bracketsConfig) {
   for (i = 0; i < str.length; i++) {
     currentSymbol = str[i]
     for (j = 0; j < bracketsConfig.length; j++) {
-      if (currentSymbol === bracketsConfig[j][1] && result.length === 0) {
+      if (currentSymbol === bracketsConfig[j][1] && result.length === 0 && currentSymbol !== '|') {
         console.log(false)
         return false
       }
